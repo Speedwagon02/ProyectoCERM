@@ -130,7 +130,7 @@ CREATE TABLE IF NOT EXISTS tbl_eventos (
     `descripcion` VARCHAR(255) NOT NULL,
     `fecha_inicio` DATE,
     `fecha_termino` DATE,
-    `ubicación` VARCHAR(255),
+    `ubicacion` VARCHAR(255),
     `id_cliente` INT,
 	`id_miembro_responsable` INT,
     `asistencia` int DEFAULT NULL,
