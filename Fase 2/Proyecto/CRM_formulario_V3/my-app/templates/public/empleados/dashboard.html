@@ -1,0 +1,47 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/dashboard.css') }}" />
+{% endblock %}
+
+{% block body %}
+<h1>Dashboard</h1>
+<div class="container">
+  
+
+  <div class="card">
+    <h3>Ganancias (Mensuales)</h3>
+    <p>$40,000</p>
+    <i class='bx bxs-calendar'></i>
+  </div>
+
+  <div class="card">
+    <h3>Ganancias (Anuales)</h3>
+    <p>$215,000</p>
+    <i class='bx bx-dollar' ></i>
+  </div>
+
+  <div class="card">
+    <h3>Tareas</h3>
+    <div class="progress-bar">
+      <div class="progress-bar-fill"></div>
+    </div>
+    <p>50%</p>
+    <i><box-icon name='check'></box-icon></i>
+  </div>
+
+  <div class="card">
+    <h3>Pendientes</h3>
+    <p>18</p>
+    <i class='bx bx-check-square' ></i>
+  </div>
+
+  <div class="card">
+    <h3>Clientes</h3>
+    <p>18</p>
+    <i class='bx bxs-user-rectangle' ></i>
+  </div>
+</div>
+{% endblock %}

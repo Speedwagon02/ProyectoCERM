@@ -1,0 +1,148 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Registrar Evento{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+      <div class="col-md-12">
+          <h3 class="text-center mt-5 mb-3">AGREGAR EVENTO</h3>
+          <hr />
+      </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+      <div class="col-md-10">
+          <form
+              class="form-horizontal mx-auto"
+              method="POST"
+              action="/add_evento"
+              autocomplete="off"
+              enctype="multipart/form-data">
+              <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <label for="nombre_evento" class="form-label">
+                              Nombre del evento
+                          </label>
+                          <input
+                              type="text"
+                              name="nombre_evento"
+                              class="form-control"
+                              required />
+                      </div>
+                      <div class="col-md-6">
+                          <label for="descripcion" class="form-label">
+                              Descripción
+                          </label>
+                          <textarea
+                              class="form-control"
+                              name="descripcion"
+                              required></textarea>
+                      </div>
+                  </div>
+
+                  <div class="col-md-6 mt-2">
+                      <label for="ubicacion" class="form-label">
+                          Ubicación
+                      </label>
+                      <input
+                          type="text"
+                          name="ubicacion"
+                          class="form-control"
+                          required />
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-md-6">
+                          <label for="fecha_inicio" class="form-label">
+                              Fecha de Inicio
+                          </label>
+                          <input
+                              class="form-control"
+                              type="date"
+                              name="fecha_inicio"
+                              required />
+                      </div>
+                      <div class="col-md-6">
+                          <label for="fecha_termino" class="form-label">
+                              Fecha de Término
+                          </label>
+                          <input
+                              class="form-control"
+                              type="date"
+                              name="fecha_termino"
+                              required />
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-md-6">
+                          <label for="id_cliente" class="form-label">
+                              Cliente (ID)
+                          </label>
+                          <input
+                              type="number"
+                              name="id_cliente"
+                              class="form-control"
+                              required />
+                      </div>
+                      <div class="col-md-6">
+                          <label for="id_miembro_responsable" class="form-label">
+                              Miembro Responsable (ID)
+                          </label>
+                          <input
+                              type="number"
+                              name="id_miembro_responsable"
+                              class="form-control"
+                              required />
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-md-6">
+                          <label for="asistencia" class="form-label">
+                              Asistencia esperada
+                          </label>
+                          <input
+                              type="number"
+                              name="asistencia"
+                              class="form-control"
+                              required />
+                      </div>
+                      <div class="col-md-6">
+                          <label for="foto_empleado" class="form-label">
+                              Foto del responsable
+                          </label>
+                          <input
+                              type="file"
+                              name="foto_empleado"
+                              class="form-control"
+                              accept=".png, .jpg, .jpeg">
+                      </div>
+                  </div>
+
+                  <div class="mb-3 mt-4 text-center">
+                      <button type="submit" class="btn rounded-pill btn-primary">
+                          Guardar evento ahora
+                      </button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+
+
+{% endblock %} {% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,54 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/eventos.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+      <div class="col-md-12">
+        <h3 class="text-center mt-5 mb-3">LISTA DE EVENTOS</h3>
+        <hr />
+      </div>
+    </div>
+  
+    <div class="row justify-content-center mb-2">
+      <div class="col-md-10">
+        <table class="table table-bordered">
+          <thead>
+            <tr>
+              <th>Nombre del Evento</th>
+              <th>Descripción</th>
+              <th>Fecha de Inicio</th>
+              <th>Fecha de Término</th>
+              <th>Ubicación</th>
+              <th>Cliente</th>
+              <th>Responsable</th>
+              <th>Asistencia</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for evento in eventos %}
+            <tr>
+              <td>{{ evento.nombre_evento }}</td>
+              <td>{{ evento.descripcion }}</td>
+              <td>{{ evento.fecha_inicio }}</td>
+              <td>{{ evento.fecha_termino }}</td>
+              <td>{{ evento.ubicacion }}</td>
+              <td>{{ evento.id_cliente }}</td>
+              <td>{{ evento.id_miembro_responsable }}</td>
+              <td>{{ evento.asistencia }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  
+
+{% endblock %}

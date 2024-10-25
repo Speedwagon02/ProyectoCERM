@@ -1,0 +1,44 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/tareas.css') }}" />
+
+{% endblock %}
+
+{% block body %}
+
+<h3>Lista de Tareas</h3>
+<table>
+    <thead>
+        <tr>
+            <th>Título</th>
+            <th>Descripción</th>
+            <th>Proyecto</th>
+            <th>Estado</th>
+            <th>Prioridad</th>
+            <th>Fecha de Inicio</th>
+            <th>Fecha de Vencimiento</th>
+            <th>Empleado Asignado</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for tarea in tareas %}
+        <tr>
+            <td>{{ tarea.titulo }}</td>
+            <td>{{ tarea.descripcion }}</td>
+            <td>{{ tarea.proyecto }}</td>
+            <td>{{ tarea.estado }}</td>
+            <td>{{ tarea.prioridad }}</td>
+            <td>{{ tarea.fecha_inicio }}</td>
+            <td>{{ tarea.fecha_vencimiento }}</td>
+            <td>{{ tarea.id_empleado_asignado }}</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+
+{% endblock %}

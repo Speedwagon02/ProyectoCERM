@@ -1,0 +1,154 @@
+<aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
+  <div class="app-brand demo">
+    <a href="{{ url_for('inicio') }}" class="app-brand-link">
+      <span class="app-brand-logo demo">
+        <img
+          src="{{ url_for('static', filename ='assets/img/logoCRM.jpg') }}"
+          alt="Logo" />
+      </span>
+    </a>
+
+    <a
+      href="javascript:void(0);"
+      class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
+      <i class="bx bx-chevron-left bx-sm align-middle"></i>
+    </a>
+  </div>
+
+  <div class="menu-inner-shadow"></div>
+  <ul class="menu-inner py-5">
+    <li
+      class="menu-item {% if request.path == '/registrar-empleado' %} active {% endif %}">
+      <a href="{{ url_for('viewFormEmpleado') }}" class="menu-link">
+        <i class="menu-icon bi bi-person-bounding-box"></i>
+        <div data-i18n="Basic">Registrar Empleado</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista-de-empleados' %} active{% endif %}">
+      <a href="/lista-de-empleados" class="menu-link">
+        <i class="menu-icon bi bi-person-lines-fill"></i>
+        <div data-i18n="Boxicons">Lista de Empleados</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/descargar-informe-empleados' %} active {% endif %}">
+      <a href="/descargar-informe-empleados" class="menu-link">
+        <i class="menu-icon bi bi-file-earmark-spreadsheet-fill"></i>
+        <div data-i18n="Tables">Reportes</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista-de-usuarios' %} active {% endif %}">
+      <a href="/lista-de-usuarios" class="menu-link">
+        <i class="menu-icon bi bi-person-lines-fill"></i>
+        <div data-i18n="Tables">Lista de Usuarios</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/mi-perfil' %} active {% endif %}">
+      <a href="/mi-perfil" class="menu-link">
+        <i class="menu-icon bi bi-person-fill-gear"></i>
+        <div data-i18n="Tables">Mi Perfil</div>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a href="{{ url_for('cerraSesion') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-lock-open-alt"></i>
+        <div data-i18n="Tables">Salir</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/dashboard' %} active {% endif %}">
+      <a href="/dashboard" class="menu-link">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAZdJREFUSEuNVNGxwyAMk0fpJs0m2ayjNKNkE3oBg2Vsv3v5aRowQrJkwfMIgKY/+t6/J09fDnv4AF8k+d4aJQfwl+Pq532DHGwCM/60n+Ao+cvtAF8A74Xomd8AXgr8RaN9TmPcArz4jtyDFvVlgiKC9hCcHavYC2MuABMnaDAPmow3gFSzpTKr2yZy0RsH0NkEAy0b7AD9/5TO4dj9WKLaw4ImvgdmmYSBoy96h3WRcRNPQwAFEIwc2BlWWOfsWfkAcppET09785/UXkA7fJOtC003UbS9i0hFkrE0hTJgiSppx54pUZ7OZGLsEn0AnKm5BRcaDguavJkN1YygEVhxXla+qrrg5K5d0jUh3LCrlDQjrB3BDJtZtiQbBz+LXH9xo+ksCqMiTdvqWmLTelToTTeJwqg1icxAvdRTjzij0Ey/OG4yKkAWNGYbZxglmRfTyfX/WUTlkUGipo2K4TR+khys5QuQQ/v7QZOzyMEFaF40mnOGOGmDAEG6JLbWUOtNpWQFYHT9jvycEQfvhPAhKf2zv17zH8RO0Rxbk8O6AAAAAElFTkSuQmCC"/>
+        <div data-i18n="Tables">Dashboard</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista_contactos' %} active {% endif %}">
+      <a href="/lista_contactos" class="menu-link">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAcRJREFUSEuNVu11wzAIPDZxN3E3ySa1J0k6SbNJvYkqjIxAoKT6keeHJL7uOIWQLgJQ/I41nd/BkHvqxxKnyZWZW+uHUFp6BEourADuBCxDDXmx1tqdHQA+eItN8ttL/gHAQd4sgs00aSmxTwngsyiyYcrU7wSWWWfFRWuRP8RmATle3muIDcAC0A0oXxIyreZM3mCg3vLWE/Yak53bdWO8tMttp3VcKjCn32HKoDF41s0C4NebtBqpwFwoHah2yHdqCKBxLrAimj6A7vdKPIf3Cv42YMMtazgkdBkDNH8zDA4UfFeAHw187r+CHGjaujNpUULHxhbrKGeoWknY1Sng1MWPhsuPgT4AWvus2FkdAgQtOm/53Ag4KuN2gB4mFDOIF9M0Tv41aCFTm5aUt1fTdgGTi+MJ/oiHoancii0iPFHwOXA/0KVN8r0ADLyspALDHs3z5P5/hJyAtQAslFZo5mLXen0y4eXjY9nl2ztqkTIhTGZXcz95uSDq+I9apBsZixSgJESAqIudn4PrYP7gTBV86LoXGid2V6+Z00w5z+0ARRKxm54Fwj47ycPLmbDxhWkyH+mjn8qiVB4m3P+5Sar8A2w8xCBrn9SVAAAAAElFTkSuQmCC"/>
+        <div data-i18n="Tables">Lista de Contactos</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista_eventos' %} active {% endif %}">
+      <a href="/lista_eventos" class="menu-link">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAatJREFUSEuNVtl1wzAMAzdpN3FH6SQdpaMko2QTNZYoEtBhNz/xkyWRBEDQhvFnAArgf+CnaW8sGAzlPFZ/9Szdo+fyZt6+eF6Em862YHrYw9eMPC0DjDOi59KyNuMKsozzDZXDLzxqB4sSkcwZlWVJctCAowC/gH0kEYu6JcXGmS+9UPAN4NlJbAHyjgcMx39J3oR+GfC5K62vS7m7GnhTQh1PkXvoylCcNJaaSnDiaR39PBQocyLFRWwMrCtKxS2ijysmZEaSewVbdV1SzrIm8TPJmsFl0ykD2TcVUukbbjWtYKHsm6UriGq6sWEDxayytrFDnQFWJJ/M+g7qDw5lZXDCjnQTRfqFB2xiCg4yAHuLyJQqkPV+T7fUEM/oMS7TrQnOFThEXufkXaOb3phXuM5owjMHBB4PCuVglsw1RN6d1d6lD/KiuwooJMkkB8TAgU3zQGV607ZsJ/5cOdg2GoDH28uPEFZa5HKYZAB5/QTw1Vea57hWDeUcOD+AHSrppYvLh4FbRR0478H13HcsQ7s2fLYW/3rYTwyqYOcy3lDS0DImN0i1+/4AG1nPHNjoHx4AAAAASUVORK5CYII="/>
+        <div data-i18n="Tables">Lista de Eventos</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista_proyectos' %} active {% endif %}">
+      <a href="/lista_proyectos" class="menu-link">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAXFJREFUSEuNVksWxCAIg/sf2nl8lCDg1FVrEUgIWGYiWiTLn2JDd+9VPk/2us/E0wH/rkaawtMRfs728tYm/wzcYus3LQAu9Bww3IKJaWVKMcPGTwpQaPHD4fRv6lZO4yQ/nKMFgTO4iyYImnr41hVAEMN6KuRbUbYazLO8Ic1IUc91oShn7IeYiAtXR0zPwv4J4C2lAUCtWeMzv+E9bO5EK0VPXVTJLkhSJLs8wm7YqqK+BlNrCLXqY4ujQXDJtFHl1dqJs0ztHmNjwGsWNfRHhgbVEFhDC4zlEffIiTZPRZ4KobI7HSa+9+Bl31+u90rZpwAoO6O21sDiCxgxGEZFVPoYlNa3jcBjlq1MBd6BevH+50C6HVKAfhbB1PPKua4zZGj9QUXMXi6c5UZqINAn6BuViR6A1n/rHkUxjOscIO7KprEwoZPo7sJrFn2Z2WUINtpubG6Kvv5cFO/NEIb7wMdHUNj8REDjYCG62w2j/wCnot0duft87AAAAABJRU5ErkJggg=="/>
+        <div data-i18n="Tables">Lista de Proyectos</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista_tickets' %} active {% endif %}">
+      <a href="/lista_tickets" class="menu-link">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAoRJREFUSEuFVYF1qzAMPG1CJimZpGQSyCS0k4ROAp1E9UkytoH8z3t5OEa2T3cnWbA/AkDLX45OUxcx9Yr6c4z52jeyuYug9tRD/P8OKJu+Qye9QHsFPgD0ADYIFih+BVgUWN4nK0ZCS0VJrVPBDLVNL4mM0A3AXYAtZ18z8YYimQQ6hiLc4DuhXwBZAO0iE74/AfDtMYJpl7HRoCV5AmQMwZ/p03TSoExw8yFJNwYTzyQiwe1aegbtgjU4uztq+9epb9IXWuQh0EwLaXxFJo+8ztYWaW3EIAZ/AXiETYly9XFjsQ3QOwQb5xPqKUBsAtyy4asMZAB0DhS3SvxJgFHdOaSMz5j06NOJz4r3DsUUkb3UGRjXIwTPJJTz7oDX2PQOCFFzvofiFTblvBepi0wqd+1qDeZktUFJjVP0r0ruAXkBSvd4th7fQ22e2jGLqAP/TKTk+7YjreUv9GdBufiZZKmt2UFltYMFN0+qPGu4hYiI7OKRDtBM2SLA3cVsukBVb7mSPYipER05XWovl5NkTujoe3fZcW/BAAWNEt+zyA7ARTaBZDp1Vj/lgE6jcM2mHJc9grqqDsz/L/d1Jdw1VycHRJm8onexhr4OGkgn0Dl1x1JoZ5Ez5QR8rL05gRug1q/MQQcXGQYWyxpEhF2b6k3FamckAzXzLDp2AT7srItzeWjXsWQATEwGW8Fc3xT77KE5hn5vu6mgg2KI9kAUW7pwiOgn8Utr8mhr2QJ8xtjBZGH3y7e1aS73qHrroLScd9CGkWaiXDgV71fNrrr0992INP8+2ODCjtz0x9qyN8GiqHfWyr6VUwrSa9b30FNKb73cdNPmqOOt1IA827fKoD3sD4WiIi9xuUFFAAAAAElFTkSuQmCC"/>
+        <div data-i18n="Tables">Lista de Tickets</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista_ventas' %} active {% endif %}">
+      <a href="/lista_ventas" class="menu-link">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAblJREFUSEulVdGVwyAMkzdJNkk2aSdpO0nfTdJs0mziC2CwAdP03vETQl1kybJDCIsAcNydLAKBT0LlsvgI8X9cNpfz/RmAZAHwcuRzAxCeOwgbGD/H+5bz09BaDup+6OW6EPBkX8bHAXAvGjsxQ4kkNmT8kv3juOhO4ImBizAKBFaAtlERe4A6i+chSbhMMrV+oAuBA7Mg1zoqpQFwS/YGMBEwH1nvzSUTgDcIO5hmn4FX5BonepIASi6uLQgwp6NQyuzzpsiaVfT4i5NT+jXypEQas+wAz+m4Z5Az+tx5nVvcAwOg8MKTSDo2vkeJSmfmTo6MOf9BiKhOg04WBqXDrbDdTAnCl4wS51SxPCPCqNDk409tRueDxDIT2so4wRnQTNm6YjQLraNKTCNpBfAfBoVoI2kGUBolwHelP5BMh8QaEFhMMQSoJbKF8CHKaeOiCiBe4zL4NGeaDlcPmwYs287XjvfViTWscFCb5lsbynWRnAa1n8yuTtamPYOo13ezqCtK9a3eCFizdKnRFG1hwg2M5aSYtn1i48otYaRf9VNaDTvHmKOhNnZrP05GsXpu6X89s8t0+AXgQdQjYHr2uwAAAABJRU5ErkJggg=="/>
+        <div data-i18n="Tables">Lsita de Ventas</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/lista_tareas' %} active {% endif %}">
+      <a href="/lista_tareas" class="menu-link">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAYCAYAAADgdz34AAAAAXNSR0IArs4c6QAAAcZJREFUSEuNVdFhxCAIfWySbJKO0knaTTJK2k2yCT0RBBXTu4+LMcqDxwMI5UcAuD18Qz7Gfd2ID7lLIHB5iJ3xc3vXs+mh7l40lBh9BlCf1aMLTMeE2Fu4wbT7GY2m2ekjOkA4wbQJwDsU9fdvAJ8AfmybPEJZXa+Px8xiDpWzQzfAewMY0qaWCq4s5W+Vm3C3OuqZLq9yUxf2wqxKsH3XVlTLJCZ1aAIARooiF4km/90a7lMEECrYOHo0tZbp5GBHkduP1C2hNgD3kCCjtNmtC88i69qSPHxuYMX4ScDvy+XvYMK0nQMQeEVR9bb+xDggBVgi2EOrEAACaJXMJtMgiJPABwMfCnBqrdwE7PVCS4rJWgE6mWqS61kLcQPoAtgiKEYL2A3QHhuc10FDrIuhiFpkYb8Yv0DYtF0qLWmXnZM8KE4LrVWyZbWCVDKUlqS9a0gEJmvds4o0sNjsQnIt0a7dfpZ4BGE/uqIyXdXBusKec+D+JOp6Y6L4NPL7WQSxVQxtvC/nNeZTqxAbyTyItuO0Ws7qMmysZiauy0T7AvdDJ0p5nQVxxCdaR9Gqn01U9BH0RWxGoqyGgZMP94TwoTqfWvsftWnYHmJpT3UAAAAASUVORK5CYII="/>
+        <div data-i18n="Tables">Lista de Tareas</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/registrar-contactos' %} active {% endif %}">
+      <a href="/registrar-contactos" class="menu-link">
+        <i class='bx bxs-group'></i>
+        <div data-i18n="Tables">Registrar Contacto</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/registrar-eventos' %} active {% endif %}">
+      <a href="/registrar-eventos" class="menu-link">
+        <i class='bx bxs-calendar-plus' ></i>
+        <div data-i18n="Tables">Registrar Evento</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/registrar-proyectos' %} active {% endif %}">
+      <a href="/registrar-proyectos" class="menu-link">
+        <i class='bx bxs-file-doc'></i>
+        <div data-i18n="Tables">Registrar Proyecto</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/registrar-tarea' %} active {% endif %}">
+      <a href="/registrar-tarea" class="menu-link">
+        <i class='bx bx-task'></i>
+        <div data-i18n="Tables">Registrar Tarea</div>
+      </a>
+    </li>
+    <li
+      class="menu-item {% if request.path == '/registrar-tickets' %} active {% endif %}">
+      <a href="/registrar-tickets" class="menu-link">
+        <i class='bx bx-help-circle' ></i>
+        <div data-i18n="Tables">Registrar Ticket</div>
+      </a>
+    </li>
+  </li>
+  <li
+    class="menu-item {% if request.path == '/registrar-venta' %} active {% endif %}">
+    <a href="/registrar-venta" class="menu-link">
+      <i class='bx bx-briefcase-alt'></i>
+      <div data-i18n="Tables">Registrar Venta</div>
+    </a>
+  </li> 
+  </ul>
+</aside>

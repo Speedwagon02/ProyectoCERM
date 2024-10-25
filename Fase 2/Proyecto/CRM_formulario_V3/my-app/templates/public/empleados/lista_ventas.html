@@ -1,0 +1,46 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/ventas.css') }}" />
+{% endblock %}
+
+{% block customJS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/js/ventas.js') }}" />
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+  <h3 class="text-center">Lista de Tickets</h3>
+  <hr>
+  <table class="table table-bordered table-hover">
+    <thead>
+       <tr>
+          <th>ID Venta</th>
+          <th>ID Cliente</th>
+          <th>Proyecto</th>
+          <th>Empresa</th>
+          <th>Fecha de Cobro</th>
+          <th>Fecha de Vencimiento de Venta</th>
+       </tr>
+     </thead>
+     <tbody>
+         {% for venta in ventas %}
+         <tr>
+            <td>{{ venta.id_venta }}</td>
+            <td>{{ venta.id_cliente }}</td>
+            <td>{{ venta.proyecto }}</td>
+            <td>{{ venta.empresa }}</td>
+            <td>{{ venta.fecha_cobro }}</td>
+            <td>{{ venta.fecha_venta_vencimiento }}</td>
+          </tr>
+          {% endfor %}
+       </tbody>
+   </table>
+</div>
+
+{% endblock %}

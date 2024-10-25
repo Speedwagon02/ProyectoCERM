@@ -1,0 +1,113 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Registrar Venta{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">AGREGAR VENTA</h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <form
+        class="form-horizontal mx-auto"
+        method="POST"
+        action="/add_venta"
+        autocomplete="off"
+        enctype="multipart/form-data">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="proyecto" class="form-label">Proyecto</label>
+              <input
+                type="text"
+                name="proyecto"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="id_cliente" class="form-label">Cliente</label>
+              <input
+                type="number"
+                name="id_cliente"
+                class="form-control"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="empresa" class="form-label">Empresa</label>
+              <input
+                type="text"
+                name="empresa"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="fecha_cobro" class="form-label">Fecha del cobro</label>
+              <input
+                type="date"
+                name="fecha_cobro"
+                class="form-control"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="fecha_venta_vencimiento" class="form-label">Fecha de vencimiento</label>
+              <input
+                type="date"
+                name="fecha_venta_vencimiento"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="archivo_venta" class="form-label">CARGAR ARCHIVO</label>
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <input
+                    type="file"
+                    name="archivo_venta"
+                    id="imageUpload"
+                    accept=".png, .jpg, .jpeg" />
+                  <label for="imageUpload"><i class="bi bi-pen"></i></label>
+                </div>
+                <div class="avatar-preview">
+                  <div class="avatar-preview">
+                    {% set url_avatar= url_for('static', filename='assets/img/avatar.png') %}
+                    <div id="imagePreview" style="background-image: url('{{ url_avatar }}')"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 mt-4 text-center">
+            <button type="submit" class="btn rounded-pill btn-primary">
+              Guardar venta ahora <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %} {% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+{% endblock %}

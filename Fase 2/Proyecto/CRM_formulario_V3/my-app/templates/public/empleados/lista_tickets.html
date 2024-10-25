@@ -1,0 +1,41 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/tickets.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+<div class="container mt-5">
+    <h3 class="text-center">Lista de Tickets</h3>
+    <hr>
+    <table class="table table-bordered table-hover">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Título</th>
+                <th>Descripción</th>
+                <th>Tipo</th>
+                <th>ID Usuario</th>
+                <th>ID Empleado Asignado</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for ticket in tickets %}
+            <tr>
+                <td>{{ ticket.id_ticket }}</td>
+                <td>{{ ticket.titulo_ticket }}</td>
+                <td>{{ ticket.descripcion_ticket }}</td>
+                <td>{{ ticket.tipo_ticket }}</td>
+                <td>{{ ticket.id_user }}</td>
+                <td>{{ ticket.id_empleado_asignado }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+{% endblock %}
