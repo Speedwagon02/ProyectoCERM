@@ -1,0 +1,118 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Lista de Empleados{% endblock %}
+<!--Inicio del block-->
+
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12">
+            <h3 class="text-center mt-5 mb-3">EDITAR PROYECTO</h3>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-10">
+            <form
+                class="form-horizontal mx-auto"
+                method="POST"
+                action="{{ url_for('editar_proyecto', id_proyecto=proyecto['id_proyecto']) }}"
+                autocomplete="off">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="nombre_proyecto" class="form-label">
+                                Nombre del proyecto
+                            </label>
+                            <input
+                                type="text"
+                                name="nombre_proyecto"
+                                class="form-control"
+                                value="{{ proyecto['nombre_proyecto'] }}"
+                                required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="descripcion" class="form-label">
+                                Descripción
+                            </label>
+                            <textarea
+                                class="form-control"
+                                name="descripcion"
+                                required>{{ proyecto['descripcion'] }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6 mt-2">
+                        <label for="tipo_evento" class="form-label">
+                            Tipo de evento
+                        </label>
+                        <input
+                            type="number"
+                            name="tipo_evento"
+                            class="form-control"
+                            value="{{ proyecto['tipo_evento'] }}"
+                            required />
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="fecha_inicio" class="form-label">
+                                Fecha de Inicio
+                            </label>
+                            <input
+                                class="form-control"
+                                type="date"
+                                name="fecha_inicio"
+                                value="{{ proyecto['fecha_inicio'] }}"
+                                required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_fin" class="form-label">
+                                Fecha de Fin
+                            </label>
+                            <input
+                                class="form-control"
+                                type="date"
+                                name="fecha_fin"
+                                value="{{ proyecto['fecha_fin'] }}"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="id_cliente" class="form-label">
+                                Cliente (ID)
+                            </label>
+                            <input
+                                type="number"
+                                name="id_cliente"
+                                class="form-control"
+                                value="{{ proyecto['id_cliente'] }}"
+                                required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_miembro_responsable" class="form-label">
+                                Miembro Responsable (ID)
+                            </label>
+                            <input
+                                type="number"
+                                name="id_miembro_responsable"
+                                class="form-control"
+                                value="{{ proyecto['id_miembro_responsable'] }}"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-4 text-center">
+                        <button type="submit" class="btn rounded-pill btn-primary">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

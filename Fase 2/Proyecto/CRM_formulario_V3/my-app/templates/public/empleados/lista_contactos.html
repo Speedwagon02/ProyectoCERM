@@ -55,6 +55,19 @@
                                 Sin foto
                             {% endif %}
                         </td>
+                        <td>
+                            <a href="{{ url_for('editar_contacto', id_contacto=contacto['id_contacto']) }}" class="btn btn-warning btn-sm">
+                                Editar
+                            </a>
+                        </td>
+                        <td>
+                            <form action="{{ url_for('eliminar_contacto', id_contacto=contacto['id_contacto']) }}" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este contacto?');">
+                                    Eliminar
+                                </button>
+                            </form>
+                        </td>
+
                     </tr>
                     {% endfor %}
                 </tbody>

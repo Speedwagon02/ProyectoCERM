@@ -1,0 +1,89 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/tickets.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12">
+            <h3 class="text-center mt-5 mb-3">EDITAR VENTA</h3>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-10">
+            <form
+                class="form-horizontal mx-auto"
+                method="POST"
+                action="{{ url_for('editar_venta', id_venta=venta.id_venta) }}"
+                autocomplete="off">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="id_cliente" class="form-label">Cliente (ID)</label>
+                            <input
+                                type="number"
+                                name="id_cliente"
+                                value="{{ venta.id_cliente }}"
+                                class="form-control"
+                                required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="proyecto" class="form-label">Proyecto</label>
+                            <input
+                                type="text"
+                                name="proyecto"
+                                value="{{ venta.proyecto }}"
+                                class="form-control"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="empresa" class="form-label">Empresa</label>
+                            <input
+                                type="text"
+                                name="empresa"
+                                value="{{ venta.empresa }}"
+                                class="form-control"
+                                required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="fecha_cobro" class="form-label">Fecha de Cobro</label>
+                            <input
+                                type="date"
+                                name="fecha_cobro"
+                                value="{{ venta.fecha_cobro }}"
+                                class="form-control"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="fecha_venta_vencimiento" class="form-label">Fecha de Vencimiento</label>
+                            <input
+                                type="date"
+                                name="fecha_venta_vencimiento"
+                                value="{{ venta.fecha_venta_vencimiento }}"
+                                class="form-control"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-4 text-center">
+                        <button type="submit" class="btn rounded-pill btn-primary">Guardar cambios</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

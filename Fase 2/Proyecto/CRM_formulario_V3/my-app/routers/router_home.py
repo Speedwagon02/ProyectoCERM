@@ -141,6 +141,77 @@ def viewContacto():
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
     
+# Ruta para mostrar el formulario de edición de contacto
+@app.route('/editar_contacto/<int:id_contacto>', methods=['GET'])
+def editar_contacto(id_contacto):
+    if 'conectado' in session:
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    # Selecciona el contacto a editar
+                    cursor.execute("SELECT * FROM tbl_contactos WHERE id_contacto = %s", (id_contacto,))
+                    contacto = cursor.fetchone()
+            return render_template('public/empleados/form_editar_contacto.html', contacto=contacto)
+        except Exception as e:
+            flash(f'Error al obtener los datos del contacto: {str(e)}', 'error')
+            return redirect(url_for('lista_contactos'))
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+# Ruta para procesar la actualización del contacto
+@app.route('/actualizar_contacto', methods=['POST'])
+def actualizar_contacto():
+    if 'conectado' in session:
+        id_contacto = request.form.get('id_contacto')
+        # Obtener los datos actualizados desde el formulario
+        datos_contacto = {
+            'nombre': request.form.get('nombre'),
+            'apellido': request.form.get('apellido'),
+            'email': request.form.get('email'),
+            'teléfono': request.form.get('teléfono'),
+            'empresa': request.form.get('empresa'),
+            'sexo_empleado': request.form.get('sexo_empleado'),
+            'propietario': request.form.get('propietario'),
+            'foto_empleado': request.form.get('foto_empleado'),
+            'id_miembro_responsable': request.form.get('id_miembro_responsable')
+        }
+        
+        # Llamar a la función de procesamiento para actualizar el contacto
+        resultado = procesar_actualizacion_contacto(id_contacto, datos_contacto)
+        
+        # Redireccionar según el resultado
+        if resultado:
+            flash('Contacto actualizado exitosamente.', 'success')
+        else:
+            flash('Error al actualizar el contacto.', 'error')
+        return redirect(url_for('lista_contactos'))
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+@app.route('/eliminar_contacto/<int:id_contacto>', methods=['POST'])
+def eliminar_contacto(id_contacto):
+    if 'conectado' in session:
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor() as cursor:
+                    # Ejecutar la consulta para eliminar el contacto
+                    sql = "DELETE FROM tbl_contactos WHERE id_contacto = %s"
+                    cursor.execute(sql, (id_contacto,))
+                    conexion_MySQLdb.commit()
+            
+            flash('Contacto eliminado exitosamente', 'success')
+        except Exception as e:
+            flash(f'Error al eliminar el contacto: {str(e)}', 'error')
+        
+        # Redirigir de nuevo a la lista de contactos
+        return redirect(url_for('lista_contactos'))
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+    
 # Ruta para agregar contacto
 @app.route('/add_contacto', methods=['POST'])
 def addContacto():
@@ -269,7 +340,59 @@ def lista_eventos():
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
 
+@app.route('/modificar_evento/<int:id_evento>', methods=['GET', 'POST'])
+def modificar_evento(id_evento):
+    if 'conectado' in session:
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    if request.method == 'POST':
+                        dataForm = {
+                            'nombre_evento': request.form.get('nombre_evento'),
+                            'descripcion': request.form.get('descripcion'),
+                            'fecha_inicio': request.form.get('fecha_inicio'),
+                            'fecha_termino': request.form.get('fecha_termino'),
+                            'ubicacion': request.form.get('ubicacion'),
+                            'id_cliente': int(request.form.get('id_cliente')),
+                            'id_miembro_responsable': int(request.form.get('id_miembro_responsable')),
+                            'asistencia': int(request.form.get('asistencia'))
+                        }
+                        sql = """UPDATE tbl_eventos SET nombre_evento=%s, descripcion=%s, fecha_inicio=%s, 
+                                 fecha_termino=%s, ubicacion=%s, id_cliente=%s, id_miembro_responsable=%s, 
+                                 asistencia=%s WHERE id_evento=%s"""
+                        cursor.execute(sql, (*dataForm.values(), id_evento))
+                        conexion_MySQLdb.commit()
+                        flash('Evento modificado exitosamente', 'success')
+                        return redirect(url_for('lista_eventos'))
+                    else:
+                        cursor.execute("SELECT * FROM tbl_eventos WHERE id_evento = %s", (id_evento,))
+                        evento = cursor.fetchone()
+            return render_template('public/empleados/form_editar_evento.html', evento=evento)
+        except Exception as e:
+            flash(f'Error al modificar el evento: {str(e)}', 'error')
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
 
+@app.route('/eliminar_evento/<int:id_evento>', methods=['POST'])
+def eliminar_evento(id_evento):
+    if 'conectado' in session:
+        try:
+            # Iniciar la conexión y definir el cursor
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor() as cursor:
+                    # Consulta SQL para eliminar el evento por ID
+                    sql = "DELETE FROM tbl_eventos WHERE id_evento = %s"
+                    cursor.execute(sql, (id_evento,))
+                    conexion_MySQLdb.commit()
+
+            flash('Evento eliminado con éxito.', 'success')
+        except Exception as e:
+            flash(f'Error al eliminar el evento: {str(e)}', 'error')
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+
+    return redirect(url_for('lista_eventos'))
     
 # Proyectos
 @app.route('/registrar-proyectos', methods=['GET'])
@@ -332,6 +455,68 @@ def lista_proyectos():
     else:
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+
+# Función para mostrar el formulario de edición de un proyecto
+@app.route('/editar_proyecto/<int:id_proyecto>', methods=['GET', 'POST'])
+def editar_proyecto(id_proyecto):
+    if 'conectado' in session:
+        if request.method == 'POST':
+            # Obtener los datos del formulario de edición
+            nombre_proyecto = request.form.get('nombre_proyecto')
+            descripcion = request.form.get('descripcion')
+            tipo_evento = request.form.get('tipo_evento')
+            fecha_inicio = request.form.get('fecha_inicio')
+            fecha_fin = request.form.get('fecha_fin')
+            id_cliente = request.form.get('id_cliente')
+            id_miembro_responsable = request.form.get('id_miembro_responsable')
+
+            # Llamar a la base de datos para actualizar el proyecto
+            try:
+                with connectionBD() as conexion_MySQLdb:
+                    with conexion_MySQLdb.cursor() as cursor:
+                        sql = """
+                            UPDATE tbl_proyectos 
+                            SET nombre_proyecto = %s, descripcion = %s, tipo_evento = %s, fecha_inicio = %s, 
+                                fecha_fin = %s, id_cliente = %s, id_miembro_responsable = %s 
+                            WHERE id_proyecto = %s
+                        """
+                        cursor.execute(sql, (nombre_proyecto, descripcion, tipo_evento, fecha_inicio,
+                                             fecha_fin, id_cliente, id_miembro_responsable, id_proyecto))
+                        conexion_MySQLdb.commit()
+                flash('Proyecto actualizado con éxito.', 'success')
+                return redirect(url_for('lista_proyectos'))
+            except Exception as e:
+                flash(f'Error al actualizar el proyecto: {str(e)}', 'error')
+        else:
+            # Obtener los datos actuales del proyecto para mostrar en el formulario
+            try:
+                with connectionBD() as conexion_MySQLdb:
+                    with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                        cursor.execute("SELECT * FROM tbl_proyectos WHERE id_proyecto = %s", (id_proyecto,))
+                        proyecto = cursor.fetchone()
+            except Exception as e:
+                flash(f'Error al cargar el proyecto: {str(e)}', 'error')
+                return redirect(url_for('lista_proyectos'))
+
+            return render_template('public/empleados/form_editar_proyecto.html', proyecto=proyecto)
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+@app.route('/eliminar_proyecto/<int:id_proyecto>', methods=['POST'])
+def eliminar_proyecto(id_proyecto):
+    if 'conectado' in session:
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor() as cursor:
+                    cursor.execute("DELETE FROM tbl_proyectos WHERE id_proyecto = %s", (id_proyecto,))
+                    conexion_MySQLdb.commit()
+            flash('Proyecto eliminado con éxito.', 'success')
+        except Exception as e:
+            flash(f'Error al eliminar el proyecto: {str(e)}', 'error')
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+    return redirect(url_for('lista_proyectos'))
 
     
 # Tickets
@@ -411,6 +596,65 @@ def addTicket():
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
 
+# Función para mostrar el formulario de edición de un ticket
+@app.route('/editar_ticket/<int:id_ticket>', methods=['GET', 'POST'])
+def editar_ticket(id_ticket):
+    if 'conectado' in session:
+        if request.method == 'POST':
+            # Obtener datos del formulario
+            titulo_ticket = request.form.get('titulo_ticket')
+            descripcion_ticket = request.form.get('descripcion_ticket')
+            tipo_ticket = request.form.get('tipo_ticket')
+            id_user = request.form.get('id_user')
+            id_empleado_asignado = request.form.get('id_empleado_asignado')
+
+            # Actualizar el ticket en la base de datos
+            try:
+                with connectionBD() as conexion_MySQLdb:
+                    with conexion_MySQLdb.cursor() as cursor:
+                        sql = """
+                            UPDATE tbl_tickets 
+                            SET titulo_ticket = %s, descripcion_ticket = %s, tipo_ticket = %s, 
+                                id_user = %s, id_empleado_asignado = %s 
+                            WHERE id_ticket = %s
+                        """
+                        cursor.execute(sql, (titulo_ticket, descripcion_ticket, tipo_ticket, id_user, id_empleado_asignado, id_ticket))
+                        conexion_MySQLdb.commit()
+                flash('Ticket actualizado con éxito.', 'success')
+                return redirect(url_for('lista_tickets'))
+            except Exception as e:
+                flash(f'Error al actualizar el ticket: {str(e)}', 'error')
+        else:
+            # Obtener datos actuales del ticket para mostrar en el formulario
+            try:
+                with connectionBD() as conexion_MySQLdb:
+                    with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                        cursor.execute("SELECT * FROM tbl_tickets WHERE id_ticket = %s", (id_ticket,))
+                        ticket = cursor.fetchone()
+            except Exception as e:
+                flash(f'Error al cargar el ticket: {str(e)}', 'error')
+                return redirect(url_for('lista_tickets'))
+
+            return render_template('public/empleados/form_editar_ticket.html', ticket=ticket)
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+@app.route('/eliminar_ticket/<int:id_ticket>', methods=['POST'])
+def eliminar_ticket(id_ticket):
+    if 'conectado' in session:
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor() as cursor:
+                    cursor.execute("DELETE FROM tbl_tickets WHERE id_ticket = %s", (id_ticket,))
+                    conexion_MySQLdb.commit()
+            flash('Ticket eliminado con éxito.', 'success')
+        except Exception as e:
+            flash(f'Error al eliminar el ticket: {str(e)}', 'error')
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+    return redirect(url_for('lista_tickets'))
+
     
 # Ventas
 @app.route('/registrar-venta', methods=['GET'])
@@ -487,6 +731,65 @@ def addVenta():
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
 
+# Función para mostrar el formulario de edición de una venta
+@app.route('/editar_venta/<int:id_venta>', methods=['GET', 'POST'])
+def editar_venta(id_venta):
+    if 'conectado' in session:
+        if request.method == 'POST':
+            id_cliente = request.form['id_cliente']
+            proyecto = request.form['proyecto']
+            empresa = request.form['empresa']
+            fecha_cobro = request.form['fecha_cobro']
+            fecha_venta_vencimiento = request.form['fecha_venta_vencimiento']
+            
+            try:
+                with connectionBD() as conexion_MySQLdb:
+                    with conexion_MySQLdb.cursor() as cursor:
+                        sql = """
+                            UPDATE tbl_ventas 
+                            SET id_cliente = %s, proyecto = %s, empresa = %s, 
+                                fecha_cobro = %s, fecha_venta_vencimiento = %s 
+                            WHERE id_venta = %s
+                        """
+                        valores = (id_cliente, proyecto, empresa, fecha_cobro, fecha_venta_vencimiento, id_venta)
+                        cursor.execute(sql, valores)
+                        conexion_MySQLdb.commit()
+                
+                flash('Venta actualizada con éxito', 'success')
+                return redirect(url_for('lista_ventas'))
+            except Exception as e:
+                flash(f'Error al actualizar la venta: {str(e)}', 'error')
+                return redirect(url_for('lista_ventas'))
+        
+        # Si es una solicitud GET, se obtienen los datos de la venta actual
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    cursor.execute("SELECT * FROM tbl_ventas WHERE id_venta = %s", (id_venta,))
+                    venta = cursor.fetchone()
+            return render_template('public/empleados/form_editar_venta.html', venta=venta)
+        except Exception as e:
+            flash(f'Error al obtener la venta: {str(e)}', 'error')
+            return redirect(url_for('lista_ventas'))
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+
+@app.route('/eliminar_venta/<int:id_venta>', methods=['POST'])
+def eliminar_venta(id_venta):
+    if 'conectado' in session:
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor() as cursor:
+                    cursor.execute("DELETE FROM tbl_ventas WHERE id_venta = %s", (id_venta,))
+                    conexion_MySQLdb.commit()
+            flash('Venta eliminada con éxito.', 'success')
+        except Exception as e:
+            flash(f'Error al eliminar la venta: {str(e)}', 'error')
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+    return redirect(url_for('lista_ventas'))
 
 
 # Formulario Tareas
@@ -560,6 +863,71 @@ def addTarea():
     else:
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+    
+# Función para mostrar el formulario de edición de una tarea
+@app.route('/editar_tarea/<int:id_tarea>', methods=['GET', 'POST'])
+def editar_tarea(id_tarea):
+    if 'conectado' in session:
+        if request.method == 'POST':
+            # Obtener datos del formulario
+            titulo = request.form.get('titulo')
+            descripcion = request.form.get('descripcion')
+            proyecto = request.form.get('proyecto')
+            estado = request.form.get('estado')
+            prioridad = request.form.get('prioridad')
+            fecha_inicio = request.form.get('fecha_inicio')
+            fecha_vencimiento = request.form.get('fecha_vencimiento')
+            id_empleado_asignado = request.form.get('id_empleado_asignado')
+
+            # Actualizar la tarea en la base de datos
+            try:
+                with connectionBD() as conexion_MySQLdb:
+                    with conexion_MySQLdb.cursor() as cursor:
+                        sql = """
+                            UPDATE tbl_tareas 
+                            SET titulo = %s, descripcion = %s, proyecto = %s, estado = %s, 
+                                prioridad = %s, fecha_inicio = %s, fecha_vencimiento = %s, 
+                                id_empleado_asignado = %s
+                            WHERE id_tarea = %s
+                        """
+                        cursor.execute(sql, (titulo, descripcion, proyecto, estado, prioridad,
+                                             fecha_inicio, fecha_vencimiento, id_empleado_asignado, id_tarea))
+                        conexion_MySQLdb.commit()
+                flash('Tarea actualizada con éxito.', 'success')
+                return redirect(url_for('lista_tareas'))
+            except Exception as e:
+                flash(f'Error al actualizar la tarea: {str(e)}', 'error')
+        else:
+            # Obtener datos actuales de la tarea para mostrar en el formulario
+            try:
+                with connectionBD() as conexion_MySQLdb:
+                    with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                        cursor.execute("SELECT * FROM tbl_tareas WHERE id_tarea = %s", (id_tarea,))
+                        tarea = cursor.fetchone()
+            except Exception as e:
+                flash(f'Error al cargar la tarea: {str(e)}', 'error')
+                return redirect(url_for('lista_tareas'))
+
+            return render_template('public/empleados/form_editar_tarea.html', tarea=tarea)
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+        return redirect(url_for('inicio'))
+
+@app.route('/eliminar_tarea/<int:id_tarea>', methods=['POST'])
+def eliminar_tarea(id_tarea):
+    if 'conectado' in session:
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor() as cursor:
+                    cursor.execute("DELETE FROM tbl_tareas WHERE id_tarea = %s", (id_tarea,))
+                    conexion_MySQLdb.commit()
+            flash('Tarea eliminada con éxito.', 'success')
+        except Exception as e:
+            flash(f'Error al eliminar la tarea: {str(e)}', 'error')
+    else:
+        flash('Primero debes iniciar sesión.', 'error')
+    return redirect(url_for('lista_tareas'))
+
     
 # Formulario evento
 @app.route('/form_evento', methods=['GET'])

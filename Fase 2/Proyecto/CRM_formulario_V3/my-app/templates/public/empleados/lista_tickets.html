@@ -32,6 +32,12 @@
                 <td>{{ ticket.id_user }}</td>
                 <td>{{ ticket.id_empleado_asignado }}</td>
             </tr>
+            <td>
+                <a href="{{ url_for('editar_ticket', id_ticket=ticket['id_ticket']) }}" class="btn btn-warning btn-sm">Editar</a>
+                <form action="{{ url_for('eliminar_ticket', id_ticket=ticket['id_ticket']) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este ticket?')">Eliminar</button>
+                </form>
+            </td>
             {% endfor %}
         </tbody>
     </table>

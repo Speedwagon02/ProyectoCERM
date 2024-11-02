@@ -1,0 +1,84 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Lista de Empleados{% endblock %}
+<!--Inicio del block-->
+
+
+
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12">
+            <h3 class="text-center mt-5 mb-3">EDITAR CONTACTO</h3>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-10">
+            <form
+                class="form-horizontal mx-auto"
+                method="POST"
+                action="/actualizar_contacto"
+                autocomplete="off">
+                <div class="card-body">
+                    <input type="hidden" name="id_contacto" value="{{ contacto['id_contacto'] }}">
+                    
+                    <div class="col-md-6">
+                        <label for="nombre" class="form-label">Nombre</label>
+                        <input type="text" name="nombre" class="form-control" value="{{ contacto['nombre'] }}" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="apellido" class="form-label">Apellido</label>
+                        <input type="text" name="apellido" class="form-control" value="{{ contacto['apellido'] }}" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" value="{{ contacto['email'] }}" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="teléfono" class="form-label">Teléfono</label>
+                        <input type="text" name="teléfono" class="form-control" value="{{ contacto['teléfono'] }}" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="empresa" class="form-label">Empresa</label>
+                        <input type="text" name="empresa" class="form-control" value="{{ contacto['empresa'] }}" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="sexo_empleado" class="form-label">Sexo</label>
+                        <select name="sexo_empleado" class="form-control">
+                            <option value="0" {% if contacto['sexo_empleado'] == 0 %}selected{% endif %}>Seleccione</option>
+                            <option value="1" {% if contacto['sexo_empleado'] == 1 %}selected{% endif %}>Masculino</option>
+                            <option value="2" {% if contacto['sexo_empleado'] == 2 %}selected{% endif %}>Femenino</option>
+                        </select>
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="propietario" class="form-label">Propietario</label>
+                        <input type="text" name="propietario" class="form-control" value="{{ contacto['propietario'] }}" required />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="foto_empleado" class="form-label">Foto</label>
+                        <input type="text" name="foto_empleado" class="form-control" value="{{ contacto['foto_empleado'] }}" />
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="id_miembro_responsable" class="form-label">Miembro Responsable</label>
+                        <input type="number" name="id_miembro_responsable" class="form-control" value="{{ contacto['id_miembro_responsable'] }}" required />
+                    </div>
+
+                    <div class="mb-3 mt-4 text-center">
+                        <button type="submit" class="btn rounded-pill btn-primary">Actualizar contacto</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

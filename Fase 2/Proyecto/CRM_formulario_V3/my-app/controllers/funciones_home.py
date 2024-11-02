@@ -336,6 +336,38 @@ def procesar_actualizacion_form(data):
         print(f"Ocurrió un error en procesar_actualizacion_form: {e}")
         return None
 
+def procesar_actualizacion_contacto(id_contacto, dataForm):
+    try:
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                sql = """
+                    UPDATE tbl_contactos 
+                    SET nombre = %s, apellido = %s, email = %s, teléfono = %s, 
+                        empresa = %s, sexo_empleado = %s, propietario = %s, 
+                        foto_empleado = %s, id_miembro_responsable = %s 
+                    WHERE id_contacto = %s
+                """
+                valores = (
+                    dataForm['nombre'],
+                    dataForm['apellido'],
+                    dataForm['email'],
+                    dataForm['teléfono'],
+                    dataForm['empresa'],
+                    int(dataForm['sexo_empleado']),
+                    dataForm['propietario'],
+                    dataForm['foto_empleado'],
+                    int(dataForm['id_miembro_responsable']),
+                    int(id_contacto)
+                )
+                cursor.execute(sql, valores)
+                conexion_MySQLdb.commit()
+                
+                return cursor.rowcount > 0
+    except Exception as e:
+        print(f"Error en procesar_actualizacion_contacto: {e}")
+        return None
+
+
 
 # Lista de Usuarios creados
 def lista_usuariosBD():

@@ -36,6 +36,10 @@
             <td>{{ tarea.fecha_vencimiento }}</td>
             <td>{{ tarea.id_empleado_asignado }}</td>
         </tr>
+        <td>
+            <a href="{{ url_for('editar_venta', id_venta=venta.id_venta) }}" class="btn btn-warning btn-sm">Editar</a>
+            <a href="{{ url_for('eliminar_venta', id_venta=venta.id_venta) }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar esta venta?');">Eliminar</a>
+        </td>
         {% endfor %}
     </tbody>
 </table>

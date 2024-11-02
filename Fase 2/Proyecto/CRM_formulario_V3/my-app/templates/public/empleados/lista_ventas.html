@@ -38,6 +38,12 @@
             <td>{{ venta.fecha_cobro }}</td>
             <td>{{ venta.fecha_venta_vencimiento }}</td>
           </tr>
+          <td>
+            <a href="{{ url_for('editar_venta', id_venta=venta['id_venta']) }}" class="btn btn-warning btn-sm">Editar</a>
+            <form action="{{ url_for('eliminar_venta', id_venta=venta['id_venta']) }}" method="POST" style="display:inline;">
+                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar esta venta?')">Eliminar</button>
+            </form>
+        </td>
           {% endfor %}
        </tbody>
    </table>

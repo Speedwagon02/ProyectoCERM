@@ -43,6 +43,13 @@
               <td>{{ evento.id_miembro_responsable }}</td>
               <td>{{ evento.asistencia }}</td>
             </tr>
+            <td>
+              <a href="{{ url_for('modificar_evento', id_evento=evento['id_evento']) }}" class="btn btn-warning btn-sm">Modificar</a>
+              <form action="{{ url_for('eliminar_evento', id_evento=evento['id_evento']) }}" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Estás seguro de que deseas eliminar este evento?');">Eliminar</button>
+              </form>
+          </td>
+          
             {% endfor %}
           </tbody>
         </table>

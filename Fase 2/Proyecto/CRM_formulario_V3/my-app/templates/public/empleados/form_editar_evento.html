@@ -1,0 +1,118 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Lista de Empleados{% endblock %}
+<!--Inicio del block-->
+
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+      <div class="col-md-12">
+        <h3 class="text-center mt-5 mb-3">MODIFICAR EVENTO</h3>
+        <hr />
+      </div>
+    </div>
+  
+    <div class="row justify-content-center mb-2">
+      <div class="col-md-10">
+        <form
+          class="form-horizontal mx-auto"
+          method="POST"
+          action="{{ url_for('modificar_evento', id_evento=evento['id_evento']) }}"
+          autocomplete="off"
+          enctype="multipart/form-data">
+          
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-6">
+                <label for="nombre_evento" class="form-label">Nombre del Evento</label>
+                <input
+                  type="text"
+                  name="nombre_evento"
+                  class="form-control"
+                  value="{{ evento['nombre_evento'] }}"
+                  required />
+              </div>
+  
+              <div class="col-md-6">
+                <label for="descripcion" class="form-label">Descripción</label>
+                <textarea
+                  class="form-control"
+                  name="descripcion"
+                  required>{{ evento['descripcion'] }}</textarea>
+              </div>
+            </div>
+  
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <label for="fecha_inicio" class="form-label">Fecha de Inicio</label>
+                <input
+                  type="date"
+                  name="fecha_inicio"
+                  class="form-control"
+                  value="{{ evento['fecha_inicio'] }}"
+                  required />
+              </div>
+              <div class="col-md-6">
+                <label for="fecha_termino" class="form-label">Fecha de Término</label>
+                <input
+                  type="date"
+                  name="fecha_termino"
+                  class="form-control"
+                  value="{{ evento['fecha_termino'] }}"
+                  required />
+              </div>
+            </div>
+  
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <label for="ubicacion" class="form-label">Ubicación</label>
+                <input
+                  type="text"
+                  name="ubicacion"
+                  class="form-control"
+                  value="{{ evento['ubicacion'] }}"
+                  required />
+              </div>
+              <div class="col-md-6">
+                <label for="id_cliente" class="form-label">Cliente (ID)</label>
+                <input
+                  type="number"
+                  name="id_cliente"
+                  class="form-control"
+                  value="{{ evento['id_cliente'] }}"
+                  required />
+              </div>
+            </div>
+  
+            <div class="row mt-2">
+              <div class="col-md-6">
+                <label for="id_miembro_responsable" class="form-label">Miembro Responsable (ID)</label>
+                <input
+                  type="number"
+                  name="id_miembro_responsable"
+                  class="form-control"
+                  value="{{ evento['id_miembro_responsable'] }}"
+                  required />
+              </div>
+              <div class="col-md-6">
+                <label for="asistencia" class="form-label">Asistencia</label>
+                <input
+                  type="number"
+                  name="asistencia"
+                  class="form-control"
+                  value="{{ evento['asistencia'] }}"
+                  required />
+              </div>
+            </div>
+  
+            <div class="mb-3 mt-4 text-center">
+              <button type="submit" class="btn rounded-pill btn-primary">
+                Guardar cambios
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% endblock %}
