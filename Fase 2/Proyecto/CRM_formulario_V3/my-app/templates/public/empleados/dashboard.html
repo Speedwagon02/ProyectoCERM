@@ -7,41 +7,40 @@
 {% endblock %}
 
 {% block body %}
-<h1>Dashboard</h1>
-<div class="container">
-  
 
-  <div class="card">
-    <h3>Ganancias (Mensuales)</h3>
-    <p>$40,000</p>
-    <i class='bx bxs-calendar'></i>
-  </div>
-
-  <div class="card">
-    <h3>Ganancias (Anuales)</h3>
-    <p>$215,000</p>
-    <i class='bx bx-dollar' ></i>
-  </div>
-
-  <div class="card">
-    <h3>Tareas</h3>
-    <div class="progress-bar">
-      <div class="progress-bar-fill"></div>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard CRM</title>
+    <style>
+        .dashboard { display: flex; gap: 20px; }
+        .card { padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard CRM</h1>
+    <div class="dashboard">
+        <div class="card">
+            <h2>Total Tickets</h2>
+            <p>{{ total_tickets }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Proyectos</h2>
+            <p>{{ total_proyectos }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Eventos</h2>
+            <p>{{ total_eventos }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Ventas</h2>
+            <p>{{ total_ventas }}</p>
+        </div>
     </div>
-    <p>50%</p>
-    <i><box-icon name='check'></box-icon></i>
-  </div>
+</body>
+</html>
 
-  <div class="card">
-    <h3>Pendientes</h3>
-    <p>18</p>
-    <i class='bx bx-check-square' ></i>
-  </div>
 
-  <div class="card">
-    <h3>Clientes</h3>
-    <p>18</p>
-    <i class='bx bxs-user-rectangle' ></i>
-  </div>
-</div>
 {% endblock %}

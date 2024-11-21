@@ -32,14 +32,24 @@
               <option value="3">Tipo 3</option>
           </select>
       </div>
-      <div class="mb-3">
-          <label for="id_user" class="form-label">ID de Usuario:</label>
-          <input type="number" class="form-control" id="id_user" name="id_user" required>
-      </div>
-      <div class="mb-3">
-          <label for="id_empleado_asignado" class="form-label">ID de Empleado Asignado:</label>
-          <input type="number" class="form-control" id="id_empleado_asignado" name="id_empleado_asignado" required>
-      </div>
+      <div class="col-md-6">
+        <label for="id_user" class="form-label">Usuario</label>
+        <select name="id" class="form-select" required>
+            <option value="" disabled selected>Seleccione un usuario</option>
+            {% for usuario in usuarios %}
+            <option value="{{ usuario['id'] }}">{{ usuario['nombre'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="col-md-6">
+        <label for="id_empleado_asignado" class="form-label">Empleado Responsable</label>
+        <select name="id_empleado_asignado" class="form-select" required>
+            <option value="" disabled selected>Seleccione un empleado</option>
+            {% for empleado in empleados %}
+            <option value="{{ empleado['id_empleado'] }}">{{ empleado['nombre_completo'] }}</option>
+            {% endfor %}
+        </select>
+    </div>
       <div class="text-center">
           <button type="submit" class="btn btn-primary">Guardar ticket ahora</button>
       </div>

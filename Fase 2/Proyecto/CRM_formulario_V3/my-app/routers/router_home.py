@@ -1,10 +1,12 @@
 from app import app
-from flask import render_template, request, flash, redirect, url_for, session,  jsonify
+from flask import render_template, request, flash, redirect, url_for, session,  jsonify, Flask
 from mysql.connector.errors import Error
 
 
 # Importando conexión a BD
 from controllers.funciones_home import *
+
+import pymysql
 
 PATH_URL = "public/empleados"
 
@@ -275,7 +277,19 @@ def lista_contactos():
 @app.route('/registrar-eventos', methods=['GET'])
 def viewEvento():
     if 'conectado' in session:
-        return render_template('public/empleados/form_evento.html')
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    # Recuperar clientes para el desplegable
+                    cursor.execute("SELECT id_contacto, CONCAT(nombre, ' ', apellido) AS nombre_completo FROM tbl_contactos")
+                    clientes = cursor.fetchall()
+                    # Recuperar empleados para el desplegable
+                    cursor.execute("SELECT id_empleado, CONCAT(nombre_empleado, ' ', apellido_empleado) AS nombre_completo FROM tbl_empleados")
+                    empleados = cursor.fetchall()
+            return render_template('public/empleados/form_evento.html', clientes=clientes , empleados=empleados)
+        except Exception as e:
+            flash(f'Error al cargar los clientes: {str(e)}', 'error')
+        return redirect(url_for('lista_eventos'))
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
@@ -398,7 +412,19 @@ def eliminar_evento(id_evento):
 @app.route('/registrar-proyectos', methods=['GET'])
 def viewProyecto():
     if 'conectado' in session:
-        return render_template('public/empleados/form_proyecto.html')
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    # Recuperar clientes para el desplegable
+                    cursor.execute("SELECT id_contacto, CONCAT(nombre, ' ', apellido) AS nombre_completo FROM tbl_contactos")
+                    clientes = cursor.fetchall()
+                    # Recuperar empleados para el desplegable
+                    cursor.execute("SELECT id_empleado, CONCAT(nombre_empleado, ' ', apellido_empleado) AS nombre_completo FROM tbl_empleados")
+                    empleados = cursor.fetchall()
+            return render_template('public/empleados/form_proyecto.html', clientes=clientes, empleados=empleados)
+        except Exception as e:
+            flash(f'Error al cargar los clientes: {str(e)}', 'error')
+            return redirect(url_for('lista_proyectos'))
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
@@ -523,7 +549,18 @@ def eliminar_proyecto(id_proyecto):
 @app.route('/registrar-tickets', methods=['GET'])
 def viewTicket():
     if 'conectado' in session:
-        return render_template('public/empleados/form_ticket.html')
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    # Recuperar usuarios para el desplegable
+                    cursor.execute("SELECT id, name_surname FROM users")
+                    usuarios = cursor.fetchall()
+                    cursor.execute("SELECT id_empleado, CONCAT(nombre_empleado, ' ', apellido_empleado) AS nombre_completo FROM tbl_empleados")
+                    empleados = cursor.fetchall()
+            return render_template('public/empleados/form_ticket.html', usuarios=usuarios, empleados=empleados)
+        except Exception as e:
+            flash(f'Error al cargar los usuarios: {str(e)}', 'error')
+            return redirect(url_for('lista_tickets'))
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
@@ -660,9 +697,21 @@ def eliminar_ticket(id_ticket):
 @app.route('/registrar-venta', methods=['GET'])
 def viewVenta():
     if 'conectado' in session:
-        return render_template('public/empleados/form_venta.html')
+        try:
+            # Obtener los clientes de la base de datos
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    cursor.execute("SELECT id_contacto, nombre FROM tbl_contactos")
+                    clientes = cursor.fetchall()
+                    print(clientes)
+            # Renderizar el formulario, pasando la lista de clientes
+            return render_template('public/empleados/form_venta.html', clientes=clientes)
+
+        except Exception as e:
+            flash(f'Error al cargar el formulario: {str(e)}', 'error')
+            return redirect(url_for('lista_ventas'))
     else:
-        flash('primero debes iniciar sesión.', 'error')
+        flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
     
 @app.route('/lista_ventas', methods=['GET'])
@@ -796,7 +845,16 @@ def eliminar_venta(id_venta):
 @app.route('/registrar-tarea', methods=['GET'])
 def viewFormTarea():
     if 'conectado' in session:
-        return render_template(f'{PATH_URL}/form_tarea.html')
+        try:
+            with connectionBD() as conexion_MySQLdb:
+                with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                    # Recuperar empleados para asignar la tarea
+                    cursor.execute("SELECT id_empleado, CONCAT(nombre_empleado, ' ', apellido_empleado) AS nombre_completo FROM tbl_empleados")
+                    empleados = cursor.fetchall()
+            return render_template('public/empleados/form_tarea.html', empleados=empleados)
+        except Exception as e:
+            flash(f'Error al cargar los empleados: {str(e)}', 'error')
+            return redirect(url_for('lista_tareas'))
     else:
         flash('primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
@@ -928,40 +986,48 @@ def eliminar_tarea(id_tarea):
         flash('Primero debes iniciar sesión.', 'error')
     return redirect(url_for('lista_tareas'))
 
-    
-# Formulario evento
-@app.route('/form_evento', methods=['GET'])
-def viewFormEvento():
-    if 'conectado' in session:
-        return render_template('public/empleados/form_evento.html')
-    else:
-        flash('primero debes iniciar sesión.', 'error')
-        return redirect(url_for('inicio'))
-    
-# Formulario proyecto
-@app.route('/form_proyecto', methods=['GET'])
-def viewFormProyecto():
-    if 'conectado' in session:
-        return render_template('public/empleados/form_proyecto.html')
-    else:
-        flash('primero debes iniciar sesión.', 'error')
-        return redirect(url_for('inicio'))
+     
+# Dashboard
 
+app = Flask(__name__)
+
+try:
+    db = pymysql.connect(
+        host="b3n9f9pgc9p0mwukdhdw-mysql.services.clever-cloud.com",
+        user="ulzydw4lytbtwqcu",
+        password="85eKV71nVTrStw3uQgEp",
+        database="b3n9f9pgc9p0mwukdhdw",
+        port=3306
+    )
+    print("Conexión a la base de datos exitosa")
+except Exception as e:
+    print(f"Error al conectar con la base de datos: {e}")
+
+@app.route('/dashboard')
+def dashboard():
+    cursor = db.cursor()
     
-# Formulario ticket
-@app.route('/form_ticket', methods=['GET'])
-def viewFormTicket():
-    if 'conectado' in session:
-        return render_template('public/empleados/form_ticket.html')
-    else:
-        flash('primero debes iniciar sesión.', 'error')
-        return redirect(url_for('inicio'))
-    
-# Formulario venta
-@app.route('/form_venta', methods=['GET'])
-def viewFormVenta():
-    if 'conectado' in session:
-        return render_template('public/empleados/form_venta.html')
-    else:
-        flash('primero debes iniciar sesión.', 'error')
-        return redirect(url_for('inicio'))
+    try:
+        cursor.execute("SELECT COUNT(*) as total_tickets FROM tbl_tickets")
+        total_tickets = cursor.fetchone()[0]
+        print(f"Total tickets: {total_tickets}")
+
+        cursor.execute("SELECT COUNT(*) as total_proyectos FROM tbl_proyectos")
+        total_proyectos = cursor.fetchone()[0]
+        print(f"Total proyectos: {total_proyectos}")
+
+        cursor.execute("SELECT COUNT(*) as total_eventos FROM tbl_eventos")
+        total_eventos = cursor.fetchone()[0]
+        print(f"Total eventos: {total_eventos}")
+
+        cursor.execute("SELECT COUNT(*) as total_ventas FROM tbl_ventas")
+        total_ventas = cursor.fetchone()[0]
+        print(f"Total ventas: {total_ventas}")
+    except Exception as e:
+        print(f"Error al realizar las consultas SQL: {e}")
+        total_tickets = total_proyectos = total_eventos = total_ventas = 0
+
+    return render_template('dashboard.html', total_tickets=total_tickets, total_proyectos=total_proyectos, total_eventos=total_eventos, total_ventas=total_ventas)
+
+if __name__ == '__main__':
+    app.run(debug=True)

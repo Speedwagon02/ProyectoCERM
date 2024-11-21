@@ -82,26 +82,25 @@
                   </div>
 
                   <div class="row mt-2">
-                      <div class="col-md-6">
-                          <label for="id_cliente" class="form-label">
-                              Cliente (ID)
-                          </label>
-                          <input
-                              type="number"
-                              name="id_cliente"
-                              class="form-control"
-                              required />
-                      </div>
-                      <div class="col-md-6">
-                          <label for="id_miembro_responsable" class="form-label">
-                              Miembro Responsable (ID)
-                          </label>
-                          <input
-                              type="number"
-                              name="id_miembro_responsable"
-                              class="form-control"
-                              required />
-                      </div>
+                    <div class="col-md-6">
+                        <label for="id_cliente" class="form-label">Cliente</label>
+                        <select name="id_cliente" class="form-select" required>
+                            <option value="" disabled selected>Seleccione un cliente</option>
+                            {% for cliente in clientes %}
+                            <option value="{{ cliente['id_contacto'] }}">{{ cliente['nombre_completo'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_miembro_responsable" class="form-label">Empleado Responsable</label>
+                        <select name="id_miembro_responsable" class="form-select" required>
+                            <option value="" disabled selected>Seleccione un empleado</option>
+                            {% for empleado in empleados %}
+                            <option value="{{ empleado['id_empleado'] }}">{{ empleado['nombre_completo'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
                   </div>
 
                   <div class="mb-3 mt-4 text-center">

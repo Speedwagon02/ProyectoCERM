@@ -45,9 +45,14 @@
               <input type="text" id="proyecto" name="proyecto" class="form-control" required>
             </div>
             <div class="col-md-6">
-              <label for="id_empleado_asignado" class="form-label">Empleado Asignado (ID):</label>
-              <input type="number" id="id_empleado_asignado" name="id_empleado_asignado" class="form-control" required>
-            </div>
+              <label for="id_empleado_asignado" class="form-label">Asignar a Empleado</label>
+              <select name="id_empleado_asignado" class="form-select" required>
+                  <option value="" disabled selected>Seleccione un empleado</option>
+                  {% for empleado in empleados %}
+                  <option value="{{ empleado['id_empleado'] }}">{{ empleado['nombre_completo'] }}</option>
+                  {% endfor %}
+              </select>
+          </div>
           </div>
   
           <div class="row mb-3">

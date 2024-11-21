@@ -497,21 +497,29 @@ def procesar_form_ticket(dataForm):
         return None
 
 # procesar venta
-def procesar_form_venta(datos_venta):
+def procesar_form_venta(dataForm):
     try:
-        # Obtener y validar datos
-        id_cliente = int(datos_venta.get('id_cliente'))
-        proyecto = datos_venta.get('proyecto')
-        empresa = datos_venta.get('empresa')
-        fecha_cobro = datos_venta.get('fecha_cobro')
-        fecha_venta_vencimiento = datos_venta.get('fecha_venta_vencimiento')
-        
-        # Empaquetar los datos en una tupla
-        return (id_cliente, proyecto, empresa, fecha_cobro, fecha_venta_vencimiento)
-    
+        with connectionBD() as conexion_MySQLdb:
+            with conexion_MySQLdb.cursor(dictionary=True) as cursor:
+                sql = """
+                    INSERT INTO tbl_ventas (id_cliente, proyecto, empresa, fecha_cobro, fecha_venta_vencimiento) 
+                    VALUES (%s, %s, %s, %s, %s)
+                """
+                valores = (
+                    int(dataForm['id_cliente']),
+                    dataForm['proyecto'],
+                    dataForm['empresa'],
+                    dataForm['fecha_cobro'],
+                    dataForm['fecha_venta_vencimiento']
+                )
+                cursor.execute(sql, valores)
+                conexion_MySQLdb.commit()
+                return cursor.rowcount > 0
+
     except Exception as e:
-        # Retornar un mensaje de error si ocurre algún problema
-        return f"Error al procesar los datos de la venta: {e}"
+        print(f"Error en procesar_form_venta: {e}")
+        return None
+
 
 def procesar_form_contacto(dataForm):
     # Verificar el valor del campo 'sexo_empleado'
