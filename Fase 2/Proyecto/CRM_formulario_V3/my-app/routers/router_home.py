@@ -866,20 +866,22 @@ def lista_tareas():
         try:
             with connectionBD() as conexion_MySQLdb:
                 with conexion_MySQLdb.cursor(dictionary=True) as cursor:
-                    # Consultar todas las tareas de la base de datos
-                    sql = "SELECT id_tarea, titulo, descripcion, proyecto, estado, prioridad, fecha_inicio, fecha_vencimiento, id_empleado_asignado FROM tbl_tareas"
+                    sql = "SELECT * FROM tbl_tareas"
                     cursor.execute(sql)
-                    tareas = cursor.fetchall()  # Obtener todas las tareas
+                    tareas = cursor.fetchall()
+                    print("Datos obtenidos:", tareas)  # Depuración
 
-            # Enviar las tareas al template para mostrarlas
             return render_template('public/empleados/lista_tareas.html', tareas=tareas)
-        
+
         except Exception as e:
-            flash(f'Error al listar las tareas: {str(e)}', 'error')
-            return render_template('public/empleados/lista_tareas.html', tareas=[])
+            print("Error al cargar las tareas:", e)  # Depuración
+            flash(f"Error al cargar las tareas: {e}", 'error')
+            return redirect(url_for('inicio'))
+
     else:
         flash('Primero debes iniciar sesión.', 'error')
         return redirect(url_for('inicio'))
+
 
 
 # agregar tarea
