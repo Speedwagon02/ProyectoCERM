@@ -1,0 +1,94 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Lista de Empleados{% endblock %}
+<!--Inicio del block-->
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-12">
+            <h3 class="text-center mt-5 mb-3">EDITAR TICKET</h3>
+            <hr />
+        </div>
+    </div>
+
+    <div class="row justify-content-center mb-2">
+        <div class="col-md-10">
+            <form
+                class="form-horizontal mx-auto"
+                method="POST"
+                action="{{ url_for('editar_ticket', id_ticket=ticket['id_ticket']) }}"
+                autocomplete="off">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="titulo_ticket" class="form-label">
+                                Título del Ticket
+                            </label>
+                            <input
+                                type="text"
+                                name="titulo_ticket"
+                                class="form-control"
+                                value="{{ ticket['titulo_ticket'] }}"
+                                required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="descripcion_ticket" class="form-label">
+                                Descripción
+                            </label>
+                            <textarea
+                                class="form-control"
+                                name="descripcion_ticket"
+                                required>{{ ticket['descripcion_ticket'] }}</textarea>
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="tipo_ticket" class="form-label">
+                                Tipo de Ticket
+                            </label>
+                            <input
+                                type="number"
+                                name="tipo_ticket"
+                                class="form-control"
+                                value="{{ ticket['tipo_ticket'] }}"
+                                required />
+                        </div>
+                        <div class="col-md-6">
+                            <label for="id_user" class="form-label">
+                                Usuario (ID)
+                            </label>
+                            <input
+                                type="number"
+                                name="id_user"
+                                class="form-control"
+                                value="{{ ticket['id_user'] }}"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="row mt-2">
+                        <div class="col-md-6">
+                            <label for="id_empleado_asignado" class="form-label">
+                                Empleado Asignado (ID)
+                            </label>
+                            <input
+                                type="number"
+                                name="id_empleado_asignado"
+                                class="form-control"
+                                value="{{ ticket['id_empleado_asignado'] }}"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="mb-3 mt-4 text-center">
+                        <button type="submit" class="btn rounded-pill btn-primary">
+                            Guardar cambios
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

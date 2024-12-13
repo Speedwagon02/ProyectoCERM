@@ -1,0 +1,143 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Agregar Contacto{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-12">
+      <h3 class="text-center mt-5 mb-3">AGREGAR CONTACTO</h3>
+      <hr />
+    </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+    <div class="col-md-10">
+      <form
+        class="form-horizontal mx-auto"
+        method="POST"
+        action="/add_contacto"
+        autocomplete="off"
+        enctype="multipart/form-data">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-6">
+              <label for="nombre" class="form-label">Nombre</label>
+              <input
+                type="text"
+                name="nombre"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="apellido" class="form-label">Apellido</label>
+              <input
+                type="text"
+                name="apellido"
+                class="form-control"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="teléfono" class="form-label">Teléfono</label>
+              <input
+                type="text"
+                name="teléfono"
+                class="form-control"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="empresa" class="form-label">Empresa</label>
+              <input
+                type="text"
+                name="empresa"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="sexo_empleado" class="form-label">Sexo</label>
+              <select name="sexo_empleado" class="form-control" required>
+                <option value="">Seleccione</option>
+                <option value="1">Masculino</option>
+                <option value="2">Femenino</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="propietario" class="form-label">Propietario</label>
+              <input
+                type="text"
+                name="propietario"
+                class="form-control"
+                required />
+            </div>
+            <div class="col-md-6">
+              <label for="id_miembro_responsable" class="form-label">Responsable</label>
+              <input
+                type="number"
+                name="id_miembro_responsable"
+                class="form-control"
+                required />
+            </div>
+          </div>
+
+          <div class="row mt-2">
+            <div class="col-md-6">
+              <label for="foto_empleado" class="form-label">CARGAR FOTO</label>
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <input
+                    type="file"
+                    name="foto_empleado"
+                    id="imageUpload"
+                    accept=".png, .jpg, .jpeg" />
+                  <label for="imageUpload"><i class="bi bi-pen"></i></label>
+                </div>
+                <div class="avatar-preview">
+                  <div class="avatar-preview">
+                    {% set url_avatar= url_for('static', filename='assets/img/avatar.png') %}
+                    <div id="imagePreview" style="background-image: url('{{ url_avatar }}')"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mb-3 mt-4 text-center">
+            <button type="submit" class="btn rounded-pill btn-primary">
+              Guardar contacto ahora <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock %} {% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+{% endblock %}

@@ -1,0 +1,120 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Registrar Tarea{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+<!--Inicio del block-->
+{% block body %}
+
+<div class="card p-4" style="border-radius: 0px !important">
+    <div class="row justify-content-center mb-2">
+      <div class="col-md-12">
+        <h3 class="text-center mt-5 mb-3">AGREGAR TAREA</h3>
+        <hr />
+      </div>
+    </div>
+  
+    <div class="row justify-content-center mb-2">
+      <div class="col-md-10">
+        <form
+          class="form-horizontal mx-auto"
+          method="POST"
+          action="/add_tarea"
+          autocomplete="off"
+          enctype="multipart/form-data">
+          
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="titulo" class="form-label">Título:</label>
+              <input type="text" id="titulo" name="titulo" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="descripcion" class="form-label">Descripción:</label>
+              <textarea id="descripcion" name="descripcion" class="form-control" required></textarea>
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="proyecto" class="form-label">Proyecto:</label>
+              <input type="text" id="proyecto" name="proyecto" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="id_empleado_asignado" class="form-label">Asignar a Empleado</label>
+              <select name="id_empleado_asignado" class="form-select" required>
+                  <option value="" disabled selected>Seleccione un empleado</option>
+                  {% for empleado in empleados %}
+                  <option value="{{ empleado['id_empleado'] }}">{{ empleado['nombre_completo'] }}</option>
+                  {% endfor %}
+              </select>
+          </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="estado" class="form-label">Estado:</label>
+              <select id="estado" name="estado" class="form-select" required>
+                <option value="">Seleccione</option>
+                <option value="1">Por hacer</option>
+                <option value="2">En progreso</option>
+                <option value="3">Terminado</option>
+              </select>
+            </div>
+            <div class="col-md-6">
+              <label for="prioridad" class="form-label">Prioridad:</label>
+              <select id="prioridad" name="prioridad" class="form-select" required>
+                <option value="">Seleccione</option>
+                <option value="1">Alta</option>
+                <option value="2">Media</option>
+                <option value="3">Baja</option>
+              </select>
+            </div>
+          </div>
+  
+          <div class="row mb-3">
+            <div class="col-md-6">
+              <label for="fecha_inicio" class="form-label">Fecha de Inicio:</label>
+              <input type="date" id="fecha_inicio" name="fecha_inicio" class="form-control" required>
+            </div>
+            <div class="col-md-6">
+              <label for="fecha_vencimiento" class="form-label">Fecha de Vencimiento:</label>
+              <input type="date" id="fecha_vencimiento" name="fecha_vencimiento" class="form-control" required>
+            </div>
+          </div>
+  
+          <div class="row mb-4">
+            <div class="col-md-6">
+              <label class="form-label">CARGAR ARCHIVO</label>
+              <div class="avatar-upload">
+                <div class="avatar-edit">
+                  <input type="file" name="archivo_tarea" id="imageUpload" accept=".png, .jpg, .jpeg" />
+                  <label for="imageUpload"><i class="bi bi-pen"></i></label>
+                </div>
+                <div class="avatar-preview">
+                  <div id="imagePreview" style="background-image: url('{{ url_avatar }}');"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+          <div class="mb-3 text-center">
+            <button type="submit" class="btn btn-primary">
+              Guardar tarea ahora <i class="bi bi-arrow-clockwise"></i>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+  
+
+
+{% endblock %} {% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+{% endblock %}

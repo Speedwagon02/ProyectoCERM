@@ -1,0 +1,46 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/dashboard.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard CRM</title>
+    <style>
+        .dashboard { display: flex; gap: 20px; }
+        .card { padding: 20px; border: 1px solid #ccc; border-radius: 5px; }
+    </style>
+</head>
+<body>
+    <h1>Dashboard CRM</h1>
+    <div class="dashboard">
+        <div class="card">
+            <h2>Total Tickets</h2>
+            <p>{{ total_tickets }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Proyectos</h2>
+            <p>{{ total_proyectos }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Eventos</h2>
+            <p>{{ total_eventos }}</p>
+        </div>
+        <div class="card">
+            <h2>Total Ventas</h2>
+            <p>{{ total_ventas }}</p>
+        </div>
+    </div>
+</body>
+</html>
+
+
+{% endblock %}

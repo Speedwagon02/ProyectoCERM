@@ -1,0 +1,58 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/gantt.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+<div class="card">
+  <div class="card-header">
+      <h3 class="text-center">Lista de Proyectos</h3>
+  </div>
+  <div class="card-body">
+      <table class="table table-striped">
+          <thead>
+              <tr>
+                  <th>ID</th>
+                  <th>Nombre</th>
+                  <th>Descripción</th>
+                  <th>Tipo de Evento</th>
+                  <th>Fecha de Inicio</th>
+                  <th>Fecha de Fin</th>
+                  <th>Cliente (ID)</th>
+                  <th>Responsable (ID)</th>
+              </tr>
+          </thead>
+          <tbody>
+              {% for proyecto in proyectos %}
+              <tr>
+                  <td>{{ proyecto.id_proyecto }}</td>
+                  <td>{{ proyecto.nombre_proyecto }}</td>
+                  <td>{{ proyecto.descripcion }}</td>
+                  <td>{{ proyecto.tipo_evento }}</td>
+                  <td>{{ proyecto.fecha_inicio }}</td>
+                  <td>{{ proyecto.fecha_fin }}</td>
+                  <td>{{ proyecto.id_cliente }}</td>
+                  <td>{{ proyecto.id_miembro_responsable }}</td>
+              </tr>
+              <td>
+                <a href="{{ url_for('editar_proyecto', id_proyecto=proyecto['id_proyecto']) }}" class="btn btn-warning btn-sm">Editar</a>
+                <form action="{{ url_for('eliminar_proyecto', id_proyecto=proyecto['id_proyecto']) }}" method="POST" style="display:inline;">
+                    <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('¿Seguro que deseas eliminar este proyecto?')">Eliminar</button>
+                </form>
+            </td>
+              {% else %}
+              <tr>
+                  <td colspan="8" class="text-center">No hay proyectos registrados</td>
+              </tr>
+              {% endfor %}
+          </tbody>
+      </table>
+  </div>
+</div>
+
+
+{% endblock %}

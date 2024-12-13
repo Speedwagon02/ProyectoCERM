@@ -1,0 +1,119 @@
+{% extends 'public/base_cpanel.html' %}
+<!--Cambiando el title-->
+{% block title %}Crud con Python 🐍 | Registrar Proyecto{% endblock %}
+<!---->
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/file.css') }}" />
+{% endblock %}
+
+{% block body %}
+<div class="card" style="border-radius: 0px !important">
+  <div class="row justify-content-center mb-2">
+      <div class="col-md-12">
+          <h3 class="text-center mt-5 mb-3">AGREGAR PROYECTO</h3>
+          <hr />
+      </div>
+  </div>
+
+  <div class="row justify-content-center mb-2">
+      <div class="col-md-10">
+          <form
+              class="form-horizontal mx-auto"
+              method="POST"
+              action="/add_proyecto"
+              autocomplete="off">
+              <div class="card-body">
+                  <div class="row">
+                      <div class="col-md-6">
+                          <label for="nombre_proyecto" class="form-label">
+                              Nombre del proyecto
+                          </label>
+                          <input
+                              type="text"
+                              name="nombre_proyecto"
+                              class="form-control"
+                              required />
+                      </div>
+                      <div class="col-md-6">
+                          <label for="descripcion" class="form-label">
+                              Descripción
+                          </label>
+                          <textarea
+                              class="form-control"
+                              name="descripcion"
+                              required></textarea>
+                      </div>
+                  </div>
+
+                  <div class="col-md-6 mt-2">
+                      <label for="tipo_evento" class="form-label">
+                          Tipo de evento
+                      </label>
+                      <input
+                          type="number"
+                          name="tipo_evento"
+                          class="form-control"
+                          required />
+                  </div>
+
+                  <div class="row mt-2">
+                      <div class="col-md-6">
+                          <label for="fecha_inicio" class="form-label">
+                              Fecha de Inicio
+                          </label>
+                          <input
+                              class="form-control"
+                              type="date"
+                              name="fecha_inicio"
+                              required />
+                      </div>
+                      <div class="col-md-6">
+                          <label for="fecha_fin" class="form-label">
+                              Fecha de Fin
+                          </label>
+                          <input
+                              class="form-control"
+                              type="date"
+                              name="fecha_fin"
+                              required />
+                      </div>
+                  </div>
+
+                  <div class="row mt-2">
+                    <div class="col-md-6">
+                        <label for="id_cliente" class="form-label">Cliente</label>
+                        <select name="id_cliente" class="form-select" required>
+                            <option value="" disabled selected>Seleccione un cliente</option>
+                            {% for cliente in clientes %}
+                            <option value="{{ cliente['id_contacto'] }}">{{ cliente['nombre_completo'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="id_miembro_responsable" class="form-label">Empleado Responsable</label>
+                        <select name="id_miembro_responsable" class="form-select" required>
+                            <option value="" disabled selected>Seleccione un empleado</option>
+                            {% for empleado in empleados %}
+                            <option value="{{ empleado['id_empleado'] }}">{{ empleado['nombre_completo'] }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    
+                  </div>
+
+                  <div class="mb-3 mt-4 text-center">
+                      <button type="submit" class="btn rounded-pill btn-primary">
+                          Guardar proyecto ahora
+                      </button>
+                  </div>
+              </div>
+          </form>
+      </div>
+  </div>
+</div>
+
+{% endblock %} {% block customJS %}
+<script src="{{ url_for('static', filename ='assets/customJS/file.js') }}"></script>
+{% endblock %}

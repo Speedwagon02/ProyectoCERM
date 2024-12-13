@@ -1,0 +1,104 @@
+{% extends 'public/base_cpanel.html' %}
+
+{% block customCSS %}
+<link
+  rel="stylesheet"
+  href="{{ url_for('static', filename ='assets/css/correo.css') }}" />
+{% endblock %}
+
+{% block body %}
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generar Correo</title>
+</head>
+<body>
+    <h1>Enviar Correo</h1>
+    
+    <form id="correoForm">
+        <label for="destinatario">Destinatario:</label>
+        <select id="destinatario" name="destinatario">
+            <option value="be.ramos@duocuc.cl">be.ramos@duocuc.cl</option>
+            <option value="i.alfaro@duocuc.cl">i.alfaro@duocuc.cl</option>
+            <option value="manu.fuentes@duocuc.cl">manu.fuentes@duocuc.cl</option>
+            <option value="fuentesmanuel.tp@gmail.com">fuentesmanuel.tp@gmail.com</option>
+        </select>
+        <br><br>
+
+        <label for="asunto">Asunto:</label>
+        <input type="text" id="asunto" name="asunto" placeholder="Escribe el asunto del correo">
+        <br><br>
+        
+        <label for="tipoMensaje">¿Qué deseas enviar?</label>
+        <select id="tipoMensaje" name="tipoMensaje">
+            <option value="mensajePropio">Escribir un mensaje propio</option>
+            <option value="mensajeHTML">Enviar la pancarta HTML</option>
+        </select>
+        <br><br>
+        
+        <div id="mensajeInput" style="display:none;">
+            <label for="mensaje">Mensaje:</label>
+            <textarea id="mensaje" name="mensaje" placeholder="Escribe el mensaje" rows="4" cols="50"></textarea>
+        </div>
+        
+        <button type="button" onclick="enviarCorreo()">Enviar Correo</button>
+    </form>
+
+    <p id="mensajeStatus"></p>
+
+    <script>
+        // Mostrar u ocultar el campo de mensaje según la selección
+        document.getElementById('tipoMensaje').addEventListener('change', function() {
+            if (this.value === 'mensajePropio') {
+                document.getElementById('mensajeInput').style.display = 'block';
+            } else {
+                document.getElementById('mensajeInput').style.display = 'none';
+            }
+        });
+
+        function enviarCorreo() {
+            const destinatario = document.getElementById('destinatario').value;
+            const asunto = document.getElementById('asunto').value;
+            const tipoMensaje = document.getElementById('tipoMensaje').value;
+            let mensaje = '';
+
+            // Si el usuario elige enviar su propio mensaje, lo tomamos del campo
+            if (tipoMensaje === 'mensajePropio') {
+                mensaje = document.getElementById('mensaje').value;
+            } else if (tipoMensaje === 'mensajeHTML') {
+                // Si elige enviar la pancarta HTML, no se necesita un mensaje adicional
+                mensaje = 'pancartaHTML'; // Indicamos que debe enviar el HTML
+            }
+
+            // Hacer la solicitud POST a la ruta Flask
+            fetch('/enviar_correo', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    destinatario: destinatario,
+                    asunto: asunto,
+                    tipoMensaje: tipoMensaje,
+                    mensaje: mensaje,
+                }),
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('mensajeStatus').innerText = data.mensaje;
+            })
+            .catch(error => {
+                document.getElementById('mensajeStatus').innerText = 'Error al enviar el correo.';
+            });
+        }
+    </script>
+</body>
+</html>
+
+
+
+
+{% endblock  %}
